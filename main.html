@@ -2,195 +2,145 @@
 <html lang="en">
     <head>
     <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <script>
-        window.addEventListener('beforeunload', function (event) {
-            event.preventDefault();
-            event.returnValue = '';
-            return 'Are you sure you want to leave? Any unsaved changes will be lost.';
-        });
-    </script>
-    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5521219086088837" crossorigin="anonymous"></script>
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WX5VS54ZDW"></script>
-    <meta name="google-adsense-account" content="ca-pub-5521219086088837">
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', 'G-WX5VS54ZDW');
-    </script>
-    <script async src="https://fundingchoicesmessages.google.com/i/pub-5521219086088837?ers=1"></script>
-    <script src="https://cdn.jsdelivr.net/gh/gn-math/gn-math.github.io@main/gnmath.js"></script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>inbox(4) - Gmail</title></title>
-    <meta name="title" content="GN-Math">
-    <meta name="description" content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on GN-Math. Fast, free, no downloads—perfect for school or home.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gn-math.github.io/">
-    <meta property="og:title" content="GN-Math">
-    <meta property="og:description" content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on GN-Math. Fast, free, no downloads—perfect for school or home.">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://gn-math.github.io/">
-    <meta name="twitter:title" content="GN-Math">
-    <meta name="twitter:description" content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on GN-Math. Fast, free, no downloads—perfect for school or home.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WFHS Game Hub</title>
+    <meta name="description" content="Over 600 games, modern cyber style for school & home.">
+    <meta property="og:title" content="WFHS Game Hub">
+    <meta property="og:description" content="Play 600+ unblocked games in a modern, cyber-themed interface.">
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Matrix background effect -->
     <style>
-      /* Matrix background enhancements for hacker/virus vibe */
+      body {
+        position: relative;
+        min-height: 100vh;
+        background: #01071a;
+        color: var(--text);
+        font-family: 'Share Tech Mono', 'Consolas', monospace;
+      }
       #matrix-canvas {
         position: fixed;
         top: 0; left: 0;
         width: 100vw; height: 100vh;
         z-index: 0;
         pointer-events: none;
-        opacity: 0.16;
-        filter: blur(1px) contrast(1.3) brightness(1.1);
-        background: transparent;
+        opacity: 0.22;
+        filter: blur(1px) contrast(1.2);
       }
       .matrix-overlay {
-        background: linear-gradient(45deg, rgba(20,255,128,0.06) 0%, rgba(0,0,16,0.55) 100%);
+        background: linear-gradient(135deg, rgba(26,255,128,0.05) 0%, rgba(0,0,16,0.48) 100%);
         position: fixed;
         top: 0; left: 0;
         width: 100vw; height: 100vh;
-        z-index: 1;
+        z-index: 2;
         pointer-events: none;
       }
+      .main-content, .zone-container, .footer-links, header, .popup {
+        position: relative;
+        z-index: 10;
+      }
     </style>
-    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-</head>
-<body class="dark-mode">
-    <!-- Matrix background canvas effect -->
-    <canvas id="matrix-canvas"></canvas>
-    <div class="matrix-overlay"></div>
-    <header>
-        <div class="header-content">
-            <div class="logo">WFHS</div>
-            <div class="search-container">
-                <input type="text" id="searchBar" placeholder="Search zones..." oninput="filterZones()">
-                <select id="sortOptions" onchange="sortZones()">
-                    <option value="name">Name</option>
-                    <option value="id">ID (Date)</option>
-                    <option value="popular">Popular</option>
-                </select>
+    <!-- END Matrix effect setup -->
+    </head>
+    <body class="dark-mode">
+        <canvas id="matrix-canvas"></canvas>
+        <div class="matrix-overlay"></div>
+        <header>
+            <div class="header-content">
+                <div class="logo">WFHS</div>
+                <div class="search-container">
+                    <input type="text" id="searchBar" placeholder="Search zones..." oninput="filterZones()">
+                    <select id="sortOptions" onchange="sortZones()">
+                        <option value="name">Name</option>
+                        <option value="id">ID (Date)</option>
+                        <option value="popular">Popular</option>
+                    </select>
+                </div>
+                <div class="control-buttons">
+                    <button id="settings">Settings</button>
+                </div>
             </div>
-            <div class="control-buttons">
-                <button id="settings" style="background-color: var(--primary-color); color: white; border: none; border-radius: 4px; padding: 0.5rem 1rem; font-size: 16px; cursor: pointer;">Settings</button>
+        </header>
+        <main>
+            <details id="featuredZonesWrapper" open>
+                <summary id="allZonesSummary">Featured Zones</summary>
+                <div id="featuredZones" class="zone-container"></div>
+            </details>
+            <br><hr><br>
+            <details id="allZonesWrapper" open>
+                <summary id="allSummary">All Zones</summary>
+                <div id="container">Loading...</div>
+            </details>
+        </main>
+        <div id="zoneViewer">
+            <div class="zone-header">
+                <div class="zone-title">
+                    <h2 id="zoneName">zone</h2>
+                    <span id="zoneId"></span>
+                    <a id="zoneAuthor" href="#" target="_blank">by Author</a>
+                </div>
+                <div class="zone-controls">
+                    <button onclick="fullscreenZone()">Fullscreen</button>
+                    <button onclick="aboutBlank()">Open in New Tab</button>
+                    <button onclick="downloadZone()">Download</button>
+                    <button onclick="closeZone()">Close</button>
+                </div>
+            </div>
+            <iframe id="zoneFrame"></iframe>
+        </div>
+        <div id="popupOverlay">
+            <div class="popup">
+                <div class="popup-header">
+                    <h3 id="popupTitle">Title</h3>
+                    <button id="popupClose" onclick="closePopup()">×</button>
+                </div>
+                <div id="popupBody">Content will be here</div>
             </div>
         </div>
-    </header>
-    <ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-client="ca-pub-5521219086088837"
-    data-ad-slot="5549138288"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
-   <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-   </script>
-
-    <main>
-        <details id="featuredZonesWrapper" open>
-            <summary id="allZonesSummary" style="font-size: 1.2rem; font-weight: bold; cursor: pointer;">Featured Zones</summary>
-            <div id="featuredZones" class="zone-container"></div>
-        </details>
-        <br><hr><br>
-        <details id="allZonesWrapper" open>
-            <summary id="allSummary" style="font-size: 1.2rem; font-weight: bold; cursor: pointer;">All Zones</summary>
-            <div id="container">Loading...</div>
-        </details>
-    </main>
-
-    <div id="zoneViewer">
-        <div class="zone-header">
-            <div class="zone-title">
-                <h2 id="zoneName">zone</h2>
-                <span id="zoneId" style="display: none;"></span>
-                <a id="zoneAuthor" href="#" target="_blank">by Author</a>
+        <footer>
+            <div class="footer-links">
+                <a href="#" onclick="loadDMCA(); return false;">DMCA</a>
+                <a href="#" onclick="showContact(); return false;">Contact</a>
+                <a href="#" onclick="loadPrivacy(); return false;">Privacy Policy</a>
+                <a href="javascript:saveData()">Export Data</a>
+                <a href="#" onclick="document.getElementById('importData').click(); return false;">Import Data</a>
+                <input type="file" id="importData" style="display: none;" onchange="loadData(event)">
             </div>
-            <div class="zone-controls">
-                <button onclick="fullscreenZone()">Fullscreen</button>
-                <button onclick="aboutBlank()">Open in New Tab</button>
-                <button onclick="downloadZone()">Download</button>
-                <button onclick="closeZone()">Close</button>
-            </div>
-        </div>
-        <iframe id="zoneFrame"></iframe>
-    </div>
-
-    <div id="popupOverlay">
-        <div class="popup">
-            <div class="popup-header">
-                <h3 id="popupTitle">Title</h3>
-                <button id="popupClose" onclick="closePopup()">×</button>
-            </div>
-            <div id="popupBody">
-                Content will be here
-            </div>
-        </div>
-    </div>
-
-    <ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-client="ca-pub-5521219086088837"
-    data-ad-slot="5549138288"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
-   <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-   </script>
-    <footer>
-        <div class="footer-links">
-            <a href="#" onclick="loadDMCA(); return false;">DMCA</a>
-            <a href="#" onclick="showContact(); return false;">Contact</a>
-            <a href="#" onclick="loadPrivacy(); return false;">Privacy Policy</a>
-            <a href="javascript:saveData()">Export Data</a>
-            <a href="#" onclick="document.getElementById('importData').click(); return false;">Import Data</a>
-            <input type="file" id="importData" style="display: none;" onchange="loadData(event)">
-        </div>
-    </footer>
-    <script src="script.js"></script>
-    <script>
-        const search = new URLSearchParams(window.location.search);
-        const privacy = search.get('privacy');
-        if (privacy) {
-            loadPrivacy();
-        }
-        // Matrix effect script
-        const canvas = document.getElementById('matrix-canvas');
-        const ctx = canvas.getContext('2d');
-
-        function resizeCanvas() {
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン@#$%&*';
-        const fontSize = 17;
-        const columns = Math.floor(window.innerWidth / fontSize);
-        const drops = [];
-        for (let x = 0; x < columns; x++) {
-          drops[x] = Math.random() * window.innerHeight / fontSize;
-        }
-        function drawMatrix() {
-          ctx.fillStyle = "rgba(18,31,20,0.18)";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.font = fontSize + "px 'Share Tech Mono', monospace";
-          ctx.fillStyle = "#19ff76";
-          for (let i = 0; i < drops.length; i++) {
-            const text = letters[Math.floor(Math.random() * letters.length)];
-            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-            if (Math.random() > 0.98) drops[i] = 0;
-            drops[i]++;
-            if (drops[i] * fontSize > canvas.height) drops[i] = 0;
+        </footer>
+        <script src="script.js"></script>
+        <script>
+          // Matrix wallpaper effect
+          const canvas = document.getElementById('matrix-canvas');
+          const ctx = canvas.getContext('2d');
+          function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
           }
-        }
-        setInterval(drawMatrix, 40);
-    </script>
-</body>
+          resizeCanvas();
+          window.addEventListener('resize', resizeCanvas);
+
+          const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン@#$%&*";
+          const fontSize = 17;
+          const columns = Math.floor(window.innerWidth / fontSize);
+          const drops = [];
+          for (let x = 0; x < columns; x++) drops[x] = Math.random() * window.innerHeight / fontSize;
+          function drawMatrix() {
+            ctx.fillStyle = "rgba(8,19,28,0.17)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.font = fontSize + "px 'Share Tech Mono', monospace";
+            ctx.fillStyle = "#41ffb0";
+            for (let i = 0; i < drops.length; i++) {
+              const text = letters[Math.floor(Math.random() * letters.length)];
+              ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+              if (Math.random() > 0.97) drops[i] = 0;
+              drops[i]++;
+              if (drops[i]*fontSize > canvas.height) drops[i] = 0;
+            }
+          }
+          setInterval(drawMatrix, 45);
+        </script>
+    </body>
 </html>
